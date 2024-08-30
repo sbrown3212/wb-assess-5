@@ -51,12 +51,58 @@ export const query8 = await Human.findAll({
 // Continue reading the instructions before you move on!
 
 // Print a directory of humans and their animals
-export async function printHumansAndAnimals() {}
+export async function printHumansAndAnimals() {
+  let directory = '';
+
+  // Query db for all humans and their associated animals
+  const data = await Human.findAll({ include: Animal });
+
+  // For each human
+  data.forEach((human) => {
+    // Concatenate full name and add line break to directory
+    directory += `${human.getFullName()}\n`
+
+    // For each animal of each human
+    human.animals.forEach((animal) => {
+      // Concatenate string with animal name and species with line break to directory
+      directory += `- ${animal.name}, ${animal.species}\n`
+    })
+  })
+
+  console.log(directory);
+}
 
 // Return a Set containing the full names of all humans
 // with animals of the given species.
-export async function getHumansByAnimalSpecies(species) {}
+export async function getHumansByAnimalSpecies(species) {
+  // Query db for all humans and the species of their animals
+  const data = await Human.findAll({
+    include: {
+      model: Animal,
+      attributes: ['species'],
+    },
+  })
 
-// console.log(Human.getFullName(1));
-// const human = await Human.findByPk(1);
-// console.log(human.getFullName())
+  // Initialize set to store names of humans
+  const humans = new Set();
+
+  // For each human in data from db query:
+  data.forEach((human) => {
+    // Deconstruct animals array from each human
+    const { animals } = human;
+
+    // Save human name to variable
+    const humanName = human.getFullName();
+
+    // For each animal of the human:
+    animals.forEach((animal) => {
+      // If animal species is the same as species provided when function was invoked:
+      if (animal.species === species) {
+        // Add name to 'humans' set
+        humans.add(humanName)
+      }
+    })
+  })
+
+  return humans;
+}
