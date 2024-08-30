@@ -2,10 +2,12 @@ import { Op } from 'sequelize';
 import { Animal, Human } from './model.js';
 
 // Get the human with the primary key 2
-export const query1 = null;
+export const query1 = await Human.findByPk(2);
 
 // Get the first animal whose species is "fish"
-export const query2 = null;
+export const query2 = await Animal.findOne({
+  where: { species: 'fish' },
+});
 
 // Get all animals belonging to the human with primary key 5
 export const query3 = null;
@@ -33,3 +35,7 @@ export async function printHumansAndAnimals() {}
 // Return a Set containing the full names of all humans
 // with animals of the given species.
 export async function getHumansByAnimalSpecies(species) {}
+
+// console.log(Human.getFullName(1));
+// const human = await Human.findByPk(1);
+// console.log(human.getFullName())
