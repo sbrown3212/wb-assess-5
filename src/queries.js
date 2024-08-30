@@ -10,13 +10,19 @@ export const query2 = await Animal.findOne({
 });
 
 // Get all animals belonging to the human with primary key 5
-export const query3 = null;
+export const query3 = await Animal.findAll({
+  where: { humanId: 5 },
+});
 
 // Get all animals born in a year greater than (but not equal to) 2015.
-export const query4 = null;
+export const query4 = await Animal.findAll({
+  where: { birthYear: { [ Op.gt ] : 2015 }}
+});
 
 // Get all the humans with first names that start with "J"
-export const query5 = null;
+export const query5 = await Human.findAll({
+  where: { fname: { [ Op.startsWith ] : 'J' } }
+});
 
 // Get all the animals who don't have a birth year
 export const query6 = null;
