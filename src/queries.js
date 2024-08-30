@@ -25,13 +25,28 @@ export const query5 = await Human.findAll({
 });
 
 // Get all the animals who don't have a birth year
-export const query6 = null;
+export const query6 = await Animal.findAll({
+  where: { birthYear: { [ Op.is ] : null } }
+});
 
 // Get all the animals with species "fish" OR "rabbit"
-export const query7 = null;
+export const query7 = await Animal.findAll({
+  where: {
+    [ Op.or ]: [
+      { species: 'fish' },
+      { species: 'rabbit' },
+    ]
+  }
+});
 
 // Get all the humans who DON'T have an email address that contains "gmail"
-export const query8 = null;
+export const query8 = await Human.findAll({
+  where: {
+    email: { 
+      [ Op.notLike ]: '%gmail%'
+    }
+  }
+});
 
 // Continue reading the instructions before you move on!
 
