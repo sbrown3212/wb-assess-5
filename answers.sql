@@ -24,3 +24,22 @@ LEFT JOIN orders AS o
 GROUP BY c.name
 ORDER BY c.name;
 
+-- Problem 5
+SELECT customers.email, SUM(orders.num_cupcakes) AS total
+FROM customers
+JOIN orders
+  ON customers.id = orders.customer_id
+GROUP BY customers.email
+ORDER BY total DESC;
+
+-- Problem 6
+SELECT DISTINCT customers.fname, customers.lname, customers.email
+FROM customers
+JOIN orders
+  ON customers.id = orders.customer_id
+WHERE cupcake_id = (
+  SELECT id
+  FROM cupcakes
+  WHERE name = 'funfetti'
+)
+  AND orders.processed = 't';
